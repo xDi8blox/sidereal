@@ -9,7 +9,7 @@ export function warp(ctx: Ctx): Viz {
   const g = new THREE.BufferGeometry()
   const seed = new Float32Array(n * 6), tail = new Float32Array(n * 2)
   for (let i = 0; i < n; i++) {
-    const a = Math.random() * Math.PI * 2, r = 0.6 + Math.pow(Math.random(), 0.6) * 14, z = Math.random()
+    const a = Math.random() * Math.PI * 2, r = 1.6 + Math.pow(Math.random(), 0.7) * 16, z = Math.random()
     for (let k = 0; k < 2; k++) { seed.set([Math.cos(a) * r, Math.sin(a) * r, z], (i * 2 + k) * 3); tail[i * 2 + k] = k }
   }
   g.setAttribute('position', new THREE.BufferAttribute(seed, 3))
@@ -23,9 +23,9 @@ export function warp(ctx: Ctx): Viz {
         vec2 xy = mat2(cos(swirl),-sin(swirl),sin(swirl),cos(swirl))*position.xy;
         vec3 p = vec3(xy, z - aTail*uStretch*(0.6+fract(position.z*13.)*0.8));
         gl_Position = projectionMatrix*modelViewMatrix*vec4(p,1.);
-        float near = smoothstep(-L, -L*0.6, z);
+        float near = smoothstep(-L, -8.0, z); near *= near;
         vec3 c = mix(uC3, uC1, fract(position.z*7.3)); c = mix(vec3(1.), c, 0.55 + 0.3*aTail);
-        vCol = c * near * (1.0-aTail*0.85) * (0.6+uBeat*0.8+uTreble*0.6) * uFade * (0.5+uStretch*0.06);
+        vCol = c * near * (1.0-aTail*0.85) * (0.6+uBeat*0.8+uTreble*0.6) * uFade * (0.35+uStretch*0.04) * 0.22;
       }`,
     fragmentShader: 'varying vec3 vCol; void main(){ gl_FragColor=vec4(vCol,1.); }',
   })

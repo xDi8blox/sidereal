@@ -23,7 +23,7 @@ const store = { get: (k: string, d: string) => localStorage.getItem('sidereal:' 
 // ---------- quality ----------
 const mobile = matchMedia('(pointer: coarse)').matches || innerWidth < 760
 const autoQ: Quality = mobile ? 'low' : (navigator.hardwareConcurrency ?? 4) >= 8 ? 'high' : 'medium'
-let qSetting = store.get('quality', 'auto')
+let qSetting = params.get('quality') ?? store.get('quality', 'auto')
 const quality = (): Quality => (qSetting === 'auto' ? autoQ : (qSetting as Quality))
 const basePR = () => Math.min(devicePixelRatio, { low: 1, medium: 1.5, high: 2 }[quality()])
 let dynScale = 1
