@@ -41,7 +41,7 @@ controls.enableDamping = true; controls.enabled = false; controls.maxDistance = 
 
 const composer = new EffectComposer(renderer)
 composer.addPass(new RenderPass(scene, camera))
-const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 1.1, 0.6, 0.12)
+const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.9, 0.55, 0.3)
 composer.addPass(bloom)
 composer.addPass(new OutputPass())
 const finalPass = new ShaderPass({
@@ -137,7 +137,7 @@ $('goMic').onclick = mic
 // ---------- settings ----------
 const sens = $<HTMLInputElement>('sens'), bloomR = $<HTMLInputElement>('bloom'), pal = $<HTMLSelectElement>('pal'), count = $<HTMLSelectElement>('count'), qSel = $<HTMLSelectElement>('quality'), cycle = $<HTMLSelectElement>('cycle'), fx = $<HTMLInputElement>('fx')
 pal.innerHTML = Object.keys(PALETTES).map((p) => `<option>${p}</option>`).join('')
-sens.value = store.get('sens', '1'); bloomR.value = store.get('bloom', '1.1'); pal.value = params.get('palette') ?? store.get('palette', 'Cosmic'); count.value = String(ctx.particles); qSel.value = qSetting; cycle.value = store.get('cycle', '35'); fx.checked = store.get('fx', '1') === '1'
+sens.value = store.get('sens', '1'); bloomR.value = store.get('bloom', '0.9'); pal.value = params.get('palette') ?? store.get('palette', 'Cosmic'); count.value = String(ctx.particles); qSel.value = qSetting; cycle.value = store.get('cycle', '35'); fx.checked = store.get('fx', '1') === '1'
 setPalette(pal.value); audio.sensitivity = +sens.value
 ;[sens, bloomR, vol, pos].forEach(paintRange)
 sens.oninput = () => { audio.sensitivity = +sens.value; store.set('sens', sens.value); paintRange(sens) }
@@ -296,3 +296,4 @@ const frame = () => {
 }
 requestAnimationFrame(frame)
 Object.assign(window, { __sidereal: { go, audio } })
+if (params.has('debug')) setInterval(() => console.log(JSON.stringify(audio.bands)), 1000)

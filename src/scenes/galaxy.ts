@@ -26,8 +26,8 @@ export function galaxy(ctx: Ctx): Viz {
         gl_PointSize = (0.9 + fract(aRnd.z*31.7)*1.6) * pulse * uPR * 9.0 / -mv.z;
         vec3 col = mix(mix(vec3(1.,.86,.62)*1.4, uC1, smoothstep(.05,.35,r)), uC2, smoothstep(.35,.85,r));
         col = mix(col, uC3, onArm*uTreble*0.6*step(0.97,fract(aRnd.z*91.0)) + core*0.0);
-        col = mix(col, vec3(1.,.8,.55)*1.6, core);
-        vA = uFade*(0.35+0.65*onArm)*pulse*0.55;
+        col = mix(col, vec3(1.,.8,.55), core);
+        vA = uFade*(0.25+0.75*onArm)*pulse*0.22*(1.0-core*0.7);
         vCol = col;
       }`,
     fragmentShader: POINT_FRAG,

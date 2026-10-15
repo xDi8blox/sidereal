@@ -11,11 +11,11 @@ export function blackhole(ctx: Ctx): Viz {
       float rot = uTime*(1.4/ (r*0.4));
       float n = fbm(vec3(cos(ang-rot)*r*1.3, sin(ang-rot)*r*1.3, r*0.6));
       float band = smoothstep(2.4,3.0,r)*smoothstep(9.5,4.0,r);
-      float bright = band*(0.4+1.2*n)*(1.0+uBass*1.6+uBeat*0.6) / (r*0.35);
+      float bright = band*pow(n,2.0)*(0.7+uBass*0.8+uBeat*0.3) * 1.6 / r;
       float dop = 1.0 + 0.55*sin(ang);                      // relativistic beaming (approaching side brighter)
       vec3 hot = mix(vec3(1.,.95,.85), uC2, smoothstep(3.,7.5,r));
-      a = clamp(bright*0.9,0.,1.);
-      return mix(hot, uC1, smoothstep(5.,9.,r)) * bright * dop * 1.8;
+      a = clamp(bright*1.5,0.,1.);
+      return mix(hot, uC1, smoothstep(5.,9.,r)) * bright * dop;
     }
     void main(){
       vec3 rd = viewRay(), p = cameraPosition, col = vec3(0); float T = 1.0;
@@ -31,8 +31,6 @@ export function blackhole(ctx: Ctx): Viz {
       }
       vec3 bg = stars(rd) + mix(uC1,uC3,.5)*pow(max(0.,1.-abs(rd.y*3.)),6.)*0.05;
       col += T*bg;
-      float ring = exp(-pow((length(cross(normalize(-cameraPosition), viewRay()))*length(cameraPosition)-2.6)*3.5,2.));
-      col += uC3*ring*0.0*uBeat;
       gl_FragColor = vec4(col*uFade,1.);
     }`)
   const group = new THREE.Group(); group.add(mesh)
