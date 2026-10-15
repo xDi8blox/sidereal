@@ -1,3 +1,4 @@
+[hidden] { display: none !important; }
 :root { --glass: rgba(18,16,32,.42); --line: rgba(255,255,255,.12); --text: #eef0ff; --dim: #9da3c4; --a1: #6a5cff; --a2: #ff4fd8; --a3: #3fe0ff; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, sans-serif; color: var(--text); }
 * { box-sizing: border-box; margin: 0; }
 html, body { height: 100%; background: #05040b; overflow: hidden; overscroll-behavior: none; }

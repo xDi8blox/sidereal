@@ -15,6 +15,8 @@ import { blackhole } from './scenes/blackhole'
 import { warp } from './scenes/warp'
 import { supernova } from './scenes/supernova'
 import './style.css'
+import { ICONS, PAUSE, PLAY } from './icons'
+for (const [id, svg] of Object.entries(ICONS)) document.getElementById(id)!.innerHTML = svg
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T
 const params = new URLSearchParams(location.search)
@@ -98,7 +100,7 @@ const renderTracks = () => { $('tracks').innerHTML = tracks.map((t, i) => `<li><
 renderTracks()
 $('tracks').onclick = (e) => { const i = (e.target as HTMLElement).dataset.i; if (i) playTrack(+i) }
 function playTrack(i: number) { ti = (i + tracks.length) % tracks.length; audio.load(tracks[ti]); audio.play(); renderTracks(); syncPlay() }
-const syncPlay = () => { $('play').textContent = audio.playing ? '❚❚' : '▶' }
+const syncPlay = () => { $('play').innerHTML = audio.playing ? PAUSE : PLAY }
 audio.el.addEventListener('play', syncPlay); audio.el.addEventListener('pause', syncPlay)
 audio.el.addEventListener('ended', () => playTrack(ti + 1))
 const togglePlay = async () => { if (audio.mode !== 'file') { audio.load(tracks[ti]); renderTracks() } if (audio.el.paused) await audio.play(); else audio.pause(); syncPlay(); dismissStart() }
