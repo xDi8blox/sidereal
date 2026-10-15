@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<link rel="icon" href="./logo.svg" type="image/svg+xml"/><meta name="theme-color" content="#05040b"/>
+<meta name="description" content="Sidereal — a cosmic 3D music visualizer built with Three.js, GLSL and the Web Audio API."/>
+<title>Sidereal — cosmic music visualizer</title></head>
+<body>
+<canvas id="gl" aria-label="Audio-reactive cosmic visualization"></canvas>
+<div id="ui">
+  <header class="top glass-lite">
+    <div class="brand"><img src="./logo.svg" alt="" width="28" height="28"/><span>Sidereal</span></div>
+    <nav id="scenes" class="chips" aria-label="Scenes"></nav>
+    <div class="top-actions">
+      <button id="auto" class="ic" title="Auto-cycle scenes (A)" aria-pressed="true">⟳</button>
+      <button id="cam" class="ic" title="Camera: cinematic / free (C)">🎥</button>
+      <button id="shot" class="ic" title="Screenshot (S)">◉</button>
+      <button id="rec" class="ic" title="Record clip (R)">⏺</button>
+      <button id="settingsBtn" class="ic" title="Settings">⚙</button>
+      <button id="full" class="ic" title="Fullscreen (F)">⛶</button>
+      <button id="hide" class="ic" title="Hide UI (H)">◌</button>
+    </div>
+  </header>
+  <div id="meter" aria-hidden="true"><i id="mB"></i><i id="mM"></i><i id="mT"></i></div>
+  <aside id="settings" class="glass panel" hidden>
+    <h3>Settings</h3>
+    <label>Sensitivity <input id="sens" type="range" min="0.3" max="2.5" step="0.05" value="1"/></label>
+    <label>Bloom <input id="bloom" type="range" min="0" max="2.5" step="0.05" value="1.1"/></label>
+    <label>Palette <select id="pal"></select></label>
+    <label>Galaxy particles <select id="count"><option value="60000">60k</option><option value="120000">120k</option><option value="250000">250k</option><option value="500000">500k</option></select></label>
+    <label>Quality <select id="quality"><option value="auto">Auto</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
+    <label>Cycle every <select id="cycle"><option value="20">20 s</option><option value="35" selected>35 s</option><option value="60">60 s</option></select></label>
+    <label class="row"><input id="fx" type="checkbox" checked/> Chromatic aberration &amp; grain</label>
+    <p class="hint">Keys: Space play · 1–5 scenes · ←/→ seek · N/P track · A auto · C camera · M mic · F fullscreen · H hide · S shot · R record</p>
+  </aside>
+  <aside id="playlist" class="glass panel" hidden><h3>Playlist</h3><ol id="tracks"></ol><p class="hint">Drop audio files anywhere, or <label class="link">open files<input id="file" type="file" accept="audio/*" multiple hidden/></label>.</p></aside>
+  <footer class="dock glass">
+    <div class="now"><b id="title">—</b><small id="credit"></small></div>
+    <div class="transport">
+      <button id="prev" class="ic" title="Previous (P)">⏮</button>
+      <button id="play" class="ic big" title="Play / pause (Space)">▶</button>
+      <button id="next" class="ic" title="Next (N)">⏭</button>
+    </div>
+    <div class="seek"><span id="cur">0:00</span><input id="pos" type="range" min="0" max="1000" value="0" aria-label="Seek"/><span id="dur">0:00</span></div>
+    <div class="side">
+      <button id="mic" class="ic" title="Microphone (M)">🎙</button>
+      <button id="plBtn" class="ic" title="Playlist">☰</button>
+      <input id="vol" type="range" min="0" max="1" step="0.01" value="0.85" aria-label="Volume"/>
+    </div>
+  </footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="start" class="start"><div class="glass card"><img src="./logo.svg" alt="" width="64" height="64"/><h1>Sidereal</h1><p>A cosmic music visualizer. Put on headphones.</p><button id="go" class="cta">▶ Play demo track</button><small>or drop your own audio · <button id="goMic" class="link">use microphone</button></small></div></div>
+  <div id="drop" class="drop" hidden><div>Drop audio to add to playlist</div></div>
+</div>
+<script type="module" src="/src/main.ts"></script>
+</body></html>
